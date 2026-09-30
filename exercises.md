@@ -146,13 +146,13 @@ và quyết định thiết kế, không chép lại toàn bộ QA.
 
 | Hạng mục | Kết quả |
 |---|---|
-| Tổng số records | ____ / 20 |
-| Easy | ____ / 5 |
-| Medium | ____ / 7 |
-| Hard | ____ / 5 |
-| Adversarial | ____ / 3 |
-| Source documents được sử dụng | ____ / 10 |
-| Validator status | PASS / FAIL |
+| Tổng số records | 20 / 20 |
+| Easy | 5 / 5 |
+| Medium | 7 / 7 |
+| Hard | 5 / 5 |
+| Adversarial | 3 / 3 |
+| Source documents được sử dụng | 10 / 10 |
+| Validator status | PASS |
 
 **Ba case đại diện cho quyết định thiết kế**
 
@@ -170,7 +170,7 @@ và quyết định thiết kế, không chép lại toàn bộ QA.
 
 - [ ] Mọi claim trong expected answer đều có evidence hỗ trợ.
 - [ ] Không có questions trùng ý và không dùng kiến thức ngoài corpus.
-- [ ] `python validate_golden_dataset.py` báo `PASS`.
+- [x] `python validate_golden_dataset.py` báo `PASS`.
 
 ### Exercise 3.2 — Benchmark Run
 
@@ -323,8 +323,8 @@ Hoàn thành `reflection.md` bằng kết quả thật từ Exercise 3.2.
 
 Hoàn thành kiểm tra cuối trong khoảng 16:50–17:00.
 
-- [ ] Tất cả required tests pass.
-- [ ] `golden_dataset.json` validate thành công.
+- [x] Tất cả required tests pass.
+- [x] `golden_dataset.json` validate thành công.
 - [ ] Exercise 3.1 hoàn thành trong file JSON và bảng kết quả phía trên.
 - [ ] Exercise 3.2 có năm metrics, aggregate report và ba cases thấp nhất.
 - [ ] Exercise 3.3 có rubric 1–5 và bias controls.

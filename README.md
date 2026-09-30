@@ -36,7 +36,7 @@ Hạn nộp mặc định: **23h59 ngày lab (GMT+7)**; coach có thể gia hạ
 
 ## Yêu cầu & Quick Start
 
-**Yêu cầu:** Python 3.11 trở lên. Cần **OpenAI API key** để chạy `domain_assistant.py` (Part 3 — sinh 20 actual answers từ RAG thật); phần code core (`template.py`, Part 1–2) không cần API key.
+**Yêu cầu:** Python 3.11 trở lên. Cần **OpenAI hoặc OpenRouter API key** để chạy `domain_assistant.py` (Part 3 — sinh 20 actual answers từ RAG thật); phần code core (`template.py`, Part 1–2) không cần API key.
 
 ```bash
 python --version                                        # xác nhận Python 3.11+
@@ -47,6 +47,16 @@ cp .env.example .env                                     # điền OPENAI_API_KE
 ```
 
 Chi tiết hướng dẫn theo hệ điều hành và xử lý lỗi: xem [`guide_lab.md`](guide_lab.md).
+
+### Giao diện demo cục bộ
+
+Sau khi cấu hình API key trong `.env`, chạy giao diện chat để demo assistant và nguồn retrieval:
+
+```bash
+python demo_server.py
+```
+
+Mở `http://127.0.0.1:8765`. Server chỉ bind vào loopback trên máy local; API key không được gửi tới trình duyệt.
 
 ---
 
@@ -108,6 +118,8 @@ data/technology_store/*.md
 ├── solution/
 │   └── solution.py              # bản sao hoàn thiện của template.py khi nộp bài
 ├── domain_assistant.py          # RAG system under evaluation (OrbitTech Support)
+├── demo_server.py               # local web demo server for the assistant
+├── demo.html                    # chat interface and retrieved-source panel
 ├── evaluate_answers.py          # adapter artifact → evaluation core
 ├── validate_golden_dataset.py   # script kiểm tra schema và provenance dataset
 ├── golden_dataset.json          # form 20 QA để học viên điền

@@ -568,12 +568,24 @@ Windows PowerShell:
 Copy-Item .env.example .env
 ```
 
-Mở `.env` và điền:
+Mở `.env` và điền thông tin nhà cung cấp. Với OpenAI:
 
 ```dotenv
 OPENAI_API_KEY=<API_KEY_CUA_BAN>
 OPENAI_MODEL=gpt-4o-mini
 ```
+
+Với OpenRouter, dùng API key OpenRouter và model ID có provider prefix, ví dụ:
+
+```dotenv
+OPENAI_API_KEY=<OPENROUTER_API_KEY>
+OPENAI_MODEL=openai/gpt-4o-mini
+# Optional: OpenRouter endpoint is selected automatically for OpenRouter keys.
+# OPENAI_BASE_URL=https://openrouter.ai/api/v1
+```
+
+`domain_assistant.py` dùng Chat Completions cho endpoint tương thích OpenAI đã cấu hình.
+Xác nhận model ID được hỗ trợ trên OpenRouter trước khi chạy benchmark.
 
 `.env` đã nằm trong `.gitignore`. Không paste key vào source code, notebook,
 artifact, terminal screenshot hoặc commit.

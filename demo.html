@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#244b3f">
+  <title>OrbitTech Care Desk - Trung tâm Hỗ trợ Khách hàng</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+    :root {
+      color-scheme: light;
+      --paper: #f1f3ed;
+      --surface: #fbfcf8;
+      --ink: #202a26;
+      --muted: #718078;
+      --line: #dce3da;
+      --forest: #244b3f;
+      --forest-soft: #e1ece5;
+      --lime: #d7e774;
+      --coral: #c96750;
+      --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+      --sans: "DM Sans", "Aptos", "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100vh;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+    }
+    button, textarea { font: inherit; }
+    button { color: inherit; }
+
+    .topbar {
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      background: var(--forest);
+      color: #fff;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      background: var(--lime);
+      color: var(--forest);
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 7px;
+    }
+    .brand-name { font-size: 14px; font-weight: 700; letter-spacing: 0; }
+    .brand-divider { width: 1px; height: 22px; background: #ffffff40; }
+    .brand-product { color: #d1ddd6; font-family: var(--mono); font-size: 11px; }
+    .top-meta { display: flex; align-items: center; gap: 18px; }
+    .top-label { color: #c1d0c8; font: 11px var(--mono); }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 30px;
+      padding: 0 11px;
+      border: 1px solid #ffffff35;
+      border-radius: 999px;
+      color: #edf5ef;
+      font-size: 11px;
+    }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--lime); }
+
+    .workspace {
+      width: min(1480px, 100%);
+      min-height: calc(100vh - 68px);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 226px minmax(380px, 1fr) 326px;
+      animation: arrive 320ms ease-out both;
+    }
+    @keyframes arrive {
+      from { opacity: 0; transform: translateY(7px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .sidebar {
+      padding: 26px 16px 24px 22px;
+      border-right: 1px solid var(--line);
+    }
+    .eyebrow { color: var(--muted); font: 10px var(--mono); text-transform: uppercase; }
+    .side-title { margin: 10px 0 21px; font-size: 17px; font-weight: 600; }
+    .nav-list { display: grid; gap: 4px; }
+    .nav-item {
+      width: 100%;
+      min-height: 40px;
+      padding: 0 10px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #485650;
+      text-align: left;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .nav-item:hover, .nav-item.active { background: var(--forest-soft); color: var(--forest); }
+    .nav-item.active { font-weight: 700; }
+    .side-rule { height: 1px; margin: 24px 0 17px; background: var(--line); }
+    .corpus-note { color: var(--muted); font-size: 11px; line-height: 1.6; }
+    .corpus-note strong { display: block; margin: 5px 0; color: var(--ink); font-size: 12px; font-weight: 600; }
+    .corpus-version { margin-top: 15px; color: var(--forest); font: 10px var(--mono); }
+
+    .conversation {
+      min-width: 0;
+      min-height: calc(100vh - 68px);
+      display: flex;
+      flex-direction: column;
+      padding: 0 28px;
+    }
+    .conversation-head {
+      height: 66px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+    }
+    .conversation-title { font-size: 13px; font-weight: 700; }
+    .conversation-subtitle { margin-top: 3px; color: var(--muted); font-size: 11px; }
+    .text-button {
+      padding: 8px 4px;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .text-button:hover { color: var(--coral); }
+    .messages {
+      flex: 1;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 19px;
+      padding: 25px 0 20px;
+      overflow-y: auto;
+    }
+    .welcome { max-width: 600px; margin: 9vh auto 0; text-align: center; }
+    .welcome-kicker { color: var(--coral); font: 10px var(--mono); text-transform: uppercase; }
+    .welcome h1 { margin: 12px 0 8px; font-size: clamp(27px, 3vw, 38px); line-height: 1.12; font-weight: 600; }
+    .welcome p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .prompt-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin: 25px auto 0;
+      text-align: left;
+    }
+    .prompt-button {
+      min-height: 62px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--surface);
+      color: #35423b;
+      font-size: 12px;
+      line-height: 1.4;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 140ms ease, transform 140ms ease;
+    }
+    .prompt-button:hover { border-color: #86a397; transform: translateY(-1px); }
+    .message { width: fit-content; max-width: min(82%, 650px); animation: arrive 180ms ease-out both; }
+    .message.user { align-self: flex-end; }
+    .message-label { margin-bottom: 6px; color: var(--muted); font: 10px var(--mono); }
+    .message.user .message-label { text-align: right; }
+    .message-body {
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 3px 9px 9px 9px;
+      background: var(--surface);
+      font-size: 13px;
+      line-height: 1.65;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .message.user .message-body {
+      border-color: var(--forest);
+      border-radius: 9px 3px 9px 9px;
+      background: var(--forest);
+      color: #fff;
+    }
+    .message.error .message-body { border-color: #e4b8ad; background: #fff4f0; color: #873d2d; }
+    .typing .message-body { color: var(--muted); font-style: italic; }
+    .composer-wrap { padding: 0 0 16px; }
+    .composer {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      padding: 9px;
+      border: 1px solid #bdc9bf;
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: 0 4px 16px #263a2e0b;
+    }
+    .composer:focus-within { border-color: var(--forest); }
+    .question-input {
+      width: 100%;
+      min-height: 43px;
+      max-height: 130px;
+      resize: vertical;
+      padding: 11px 8px;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--ink);
+      font-size: 13px;
+    }
+    .question-input::placeholder { color: #99a59d; }
+    .send-button {
+      flex: 0 0 auto;
+      min-width: 76px;
+      height: 40px;
+      padding: 0 14px;
+      border: 0;
+      border-radius: 6px;
+      background: var(--forest);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .send-button:hover { background: #19392f; }
+    .send-button:disabled { cursor: wait; opacity: .55; }
+    .composer-hint { margin: 7px 3px 0; color: #89958d; font-size: 10px; }
+
+    .source-rail {
+      min-width: 0;
+      padding: 26px 20px;
+      border-left: 1px solid var(--line);
+      background: #f7f8f3;
+    }
+    .source-head { display: flex; align-items: center; justify-content: space-between; }
+    .source-head h2 { margin: 0; font-size: 14px; font-weight: 700; }
+    .source-count { color: var(--muted); font: 10px var(--mono); }
+    .source-intro { margin: 9px 0 18px; color: var(--muted); font-size: 11px; line-height: 1.55; }
+    .source-empty {
+      padding: 16px 12px;
+      border: 1px dashed #c8d2c8;
+      border-radius: 7px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.55;
+    }
+    .source-list { display: grid; gap: 0; }
+    .source-item { padding: 14px 0; border-top: 1px solid var(--line); }
+    .source-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+    .source-name { color: var(--forest); font: 10px var(--mono); overflow-wrap: anywhere; }
+    .source-score { color: var(--coral); font: 10px var(--mono); white-space: nowrap; }
+    .source-id { margin-top: 4px; color: #8a978f; font: 9px var(--mono); }
+    .source-text { margin: 9px 0 0; color: #4f5d55; font-size: 11px; line-height: 1.6; }
+    .source-footer { margin-top: 20px; padding-top: 13px; border-top: 1px solid var(--line); color: #89958d; font: 9px/1.6 var(--mono); }
+
+    @media (max-width: 1120px) {
+      .workspace { grid-template-columns: 190px minmax(350px, 1fr); }
+      .source-rail { grid-column: 2; border-top: 1px solid var(--line); border-left: 0; }
+      .source-list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; }
+    }
+    @media (max-width: 720px) {
+      .topbar { height: 58px; padding: 0 15px; }
+      .brand-product, .brand-divider, .top-label { display: none; }
+      .top-meta { gap: 8px; }
+      .status-pill { min-height: 28px; padding: 0 8px; font-size: 10px; }
+      .workspace { display: flex; min-height: calc(100vh - 58px); flex-direction: column; }
+      .sidebar { display: none; }
+      .conversation { min-height: 72vh; padding: 0 15px; }
+      .conversation-head { height: 59px; }
+      .messages { min-height: 360px; }
+      .welcome { margin: 6vh auto 0; }
+      .welcome h1 { font-size: 30px; }
+      .prompt-list { grid-template-columns: 1fr; margin-top: 20px; }
+      .prompt-button { min-height: 48px; }
+      .message { max-width: 92%; }
+      .source-rail { padding: 19px 15px 24px; }
+      .source-list { grid-template-columns: 1fr; }
+      .composer-hint { line-height: 1.45; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">OT</span>
+      <span class="brand-name">ORBITTECH</span>
+      <span class="brand-divider" aria-hidden="true"></span>
+      <span class="brand-product">BÀN HỖ TRỢ / CSKH</span>
+    </div>
+    <div class="top-meta">
+      <span class="top-label">HỖ TRỢ KHÁCH HÀNG</span>
+      <span class="status-pill"><span class="status-dot" aria-hidden="true"></span><span id="server-status">Bản demo nội bộ</span></span>
+    </div>
+  </header>
+
+  <div class="workspace">
+    <aside class="sidebar" aria-label="Chủ đề hỗ trợ">
+      <div class="eyebrow">Không gian làm việc</div>
+      <div class="side-title">Bàn hỗ trợ</div>
+      <nav class="nav-list">
+        <button class="nav-item active" type="button" data-topic="hỗ trợ chung">Hỗ trợ chung</button>
+        <button class="nav-item" type="button" data-topic="đơn hàng &amp; thanh toán">Đơn hàng &amp; Thanh toán</button>
+        <button class="nav-item" type="button" data-topic="vận chuyển &amp; giao hàng">Vận chuyển &amp; Giao hàng</button>
+        <button class="nav-item" type="button" data-topic="đổi trả &amp; hoàn tiền">Đổi trả &amp; Hoàn tiền</button>
+        <button class="nav-item" type="button" data-topic="bảo hành &amp; sửa chữa">Bảo hành &amp; Sửa chữa</button>
+        <button class="nav-item" type="button" data-topic="tài khoản &amp; bảo mật">Tài khoản &amp; Bảo mật</button>
+      </nav>
+      <div class="side-rule"></div>
+      <div class="eyebrow">Cơ sở tri thức</div>
+      <div class="corpus-note"><strong>Cửa hàng OrbitTech</strong>Hỗ trợ khách hàng<br>Tập ngữ liệu chính sách chính thức</div>
+      <div class="corpus-version">NGỮ LIỆU · V1.0</div>
+    </aside>
+
+    <main class="conversation">
+      <div class="conversation-head">
+        <div>
+          <div class="conversation-title">Trợ lý hỗ trợ khách hàng</div>
+          <div class="conversation-subtitle">Câu trả lời đối chiếu từ tập chính sách của OrbitTech</div>
+        </div>
+        <button class="text-button" id="clear-chat" type="button">Xóa đoạn hội thoại</button>
+      </div>
+      <section class="messages" id="messages" aria-live="polite" aria-label="Hội thoại">
+        <div class="welcome" id="welcome">
+          <div class="welcome-kicker">OrbitTech / Trung tâm trợ giúp</div>
+          <h1>Chúng tôi có thể giúp gì cho bạn?</h1>
+          <p>Đặt câu hỏi về sản phẩm hoặc chính sách. Trợ lý sẽ hiển thị các đoạn trích dẫn nguồn được sử dụng.</p>
+          <div class="prompt-list">
+            <button class="prompt-button" type="button" data-question="My NovaBook 14 was damaged in a drop. Is this covered by warranty, and what repair fee could apply?">Chính sách bảo hành khi sản phẩm bị rơi vỡ</button>
+            <button class="prompt-button" type="button" data-question="When can I cancel an order, and can I change its destination country?">Hủy đơn hàng hoặc đổi địa chỉ giao hàng</button>
+            <button class="prompt-button" type="button" data-question="My package has no tracking update three business days after its estimated delivery. What happens next?">Bưu kiện ngừng cập nhật lộ trình giao hàng</button>
+            <button class="prompt-button" type="button" data-question="Can I return opened AeroBuds Pro ear tips if I changed my mind?">Đổi trả phụ kiện vệ sinh AeroBuds Pro đã mở hộp</button>
+          </div>
+        </div>
+      </section>
+      <div class="composer-wrap">
+        <form class="composer" id="question-form">
+          <textarea class="question-input" id="question-input" rows="1" maxlength="1000" aria-label="Câu hỏi của bạn" placeholder="Đặt câu hỏi hỗ trợ OrbitTech…"></textarea>
+          <button class="send-button" id="send-button" type="submit">Gửi</button>
+        </form>
+        <div class="composer-hint">Câu trả lời chỉ sử dụng tập ngữ liệu chính sách được cung cấp. Vui lòng không nhập mật khẩu, mã OTP hoặc thông tin thanh toán.</div>
+      </div>
+    </main>
+
+    <aside class="source-rail" aria-label="Dẫn chứng truy xuất">
+      <div class="source-head">
+        <h2>Tài liệu trích dẫn</h2>
+        <span class="source-count" id="source-count">0 ĐOẠN TRÍCH</span>
+      </div>
+      <p class="source-intro">Các đoạn trích xếp hạng cao cung cấp cho trợ lý cho câu trả lời mới nhất.</p>
+      <div class="source-empty" id="source-empty">Hãy đặt câu hỏi để xem dẫn chứng được truy xuất từ kho tài liệu chính sách.</div>
+      <div class="source-list" id="source-list"></div>
+      <div class="source-footer">TRUY XUẤT · BM25<br>SẮP XẾP THEO ĐIỂM TƯƠNG ĐỒNG</div>
+    </aside>
+  </div>
+
+  <script>
+    const messages = document.querySelector("#messages");
+    const welcome = document.querySelector("#welcome");
+    const form = document.querySelector("#question-form");
+    const input = document.querySelector("#question-input");
+    const sendButton = document.querySelector("#send-button");
+    const sourceList = document.querySelector("#source-list");
+    const sourceEmpty = document.querySelector("#source-empty");
+    const sourceCount = document.querySelector("#source-count");
+    const serverStatus = document.querySelector("#server-status");
+    let busy = false;
+
+    function appendMessage(role, text, className = "") {
+      welcome.hidden = true;
+      const article = document.createElement("article");
+      article.className = `message ${role} ${className}`.trim();
+      const label = document.createElement("div");
+      label.className = "message-label";
+      label.textContent = role === "user" ? "BẠN" : "TRỢ LÝ ORBITTECH";
+      const body = document.createElement("div");
+      body.className = "message-body";
+      body.textContent = text;
+      article.append(label, body);
+      messages.append(article);
+      messages.scrollTop = messages.scrollHeight;
+      return article;
+    }
+
+    function renderSources(sources) {
+      sourceList.replaceChildren();
+      sourceCount.textContent = `${sources.length} ĐOẠN TRÍCH`;
+      sourceEmpty.hidden = sources.length > 0;
+      for (const [index, source] of sources.entries()) {
+        const item = document.createElement("article");
+        item.className = "source-item";
+        const top = document.createElement("div");
+        top.className = "source-top";
+        const name = document.createElement("span");
+        name.className = "source-name";
+        name.textContent = source.source_doc;
+        const score = document.createElement("span");
+        score.className = "source-score";
+        score.textContent = Number(source.score).toFixed(3);
+        top.append(name, score);
+        const id = document.createElement("div");
+        id.className = "source-id";
+        id.textContent = `HẠNG ${String(index + 1).padStart(2, "0")} · ${source.chunk_id}`;
+        const text = document.createElement("p");
+        text.className = "source-text";
+        text.textContent = source.text;
+        item.append(top, id, text);
+        sourceList.append(item);
+      }
+    }
+
+    async function ask(question) {
+      const cleanQuestion = question.trim();
+      if (!cleanQuestion || busy) return;
+      busy = true;
+      sendButton.disabled = true;
+      appendMessage("user", cleanQuestion);
+      input.value = "";
+      const pending = appendMessage("assistant", "Đang truy xuất dẫn chứng chính sách và chuẩn bị câu trả lời…", "typing");
+      try {
+        const response = await fetch("/api/answer", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question: cleanQuestion }),
+        });
+        const result = await response.json();
+        pending.remove();
+        if (!response.ok) throw new Error(result.error || "Yêu cầu không thể hoàn thành.");
+        appendMessage("assistant", result.answer);
+        renderSources(result.sources || []);
+        serverStatus.textContent = "Trợ lý sẵn sàng";
+      } catch (error) {
+        pending.remove();
+        appendMessage("assistant", error.message || "Trợ lý không thể phản hồi. Vui lòng kiểm tra cấu hình máy chủ cục bộ.", "error");
+        serverStatus.textContent = "Kiểm tra cấu hình";
+        renderSources([]);
+      } finally {
+        busy = false;
+        sendButton.disabled = false;
+        input.focus();
+      }
+    }
+
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      ask(input.value);
+    });
+    input.addEventListener("keydown", event => {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        form.requestSubmit();
+      }
+    });
+    document.querySelectorAll("[data-question]").forEach(button => {
+      button.addEventListener("click", () => ask(button.dataset.question));
+    });
+    document.querySelectorAll("[data-topic]").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll("[data-topic]").forEach(item => item.classList.remove("active"));
+        button.classList.add("active");
+        input.placeholder = `Hỏi về ${button.dataset.topic.toLowerCase()}…`;
+        input.focus();
+      });
+    });
+    document.querySelector("#clear-chat").addEventListener("click", () => {
+      messages.replaceChildren(welcome);
+      welcome.hidden = false;
+      renderSources([]);
+      serverStatus.textContent = "Bản demo nội bộ";
+    });
+    fetch("/api/health").then(response => {
+      if (response.ok) serverStatus.textContent = "Hệ thống sẵn sàng";
+    }).catch(() => { serverStatus.textContent = "Mất kết nối"; });
+  </script>
+</body>
+</html>
